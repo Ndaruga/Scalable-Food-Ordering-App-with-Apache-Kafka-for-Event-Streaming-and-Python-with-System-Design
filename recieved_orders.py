@@ -6,7 +6,7 @@ from datetime import datetime
 
 from kafka import KafkaProducer
 
-ORDER_KAFKA_TOPIC = "order_details"
+ORDER_KAFKA_TOPIC = "recieved_orders"
 ORDER_LIMIT = 15
 fake = Faker()
 
@@ -19,12 +19,13 @@ print("Generating orders in random times ...")
 for i in range(1, ORDER_LIMIT):
     data = {
         "date": datetime.now(),
-        "Order_id": i,
-        "User_id": fake.uuid4(),
+        "order_id": i,
+        "user_id": fake.uuid4(),
         "customer_name": fake.name(),
+        "email": fake.email(),
         "order_item": fake.random_element(["Water Dispenser", "Microwave", "Laptop", "Monitor", "Cooker", "TV", "Router", "Fridge"]),
         "order_quantity": random.choice(range(1,4)),
-        "total_cost": 200*random.choice(range(100, 115))
+        "cost": 200*random.choice(range(91, 115))
     }
 
     producer.send(
@@ -33,5 +34,5 @@ for i in range(1, ORDER_LIMIT):
     )
 
     print(f"Done sending {i}")
-    time.sleep(3)
+    time.sleep(random.choice(range(1, 11)))
 
