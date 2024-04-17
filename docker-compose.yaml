@@ -2,6 +2,10 @@
 version: '3.8'
 
 services:
+
+##############################################
+# Zookeeper
+##############################################
   zookeeper:
     image: confluentinc/cp-zookeeper:7.2.1
     container_name: zookeeper
@@ -10,7 +14,11 @@ services:
     environment:
       - ZOOKEEPER_CLIENT_PORT=2181
       - ZOOKEEPER_TICK_TIME=2000
-    
+
+##############################################
+# kafka - stream data
+##############################################
+
   kafka:
     image: confluentinc/cp-kafka:7.2.1
     container_name: kafka
@@ -23,7 +31,11 @@ services:
       - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT, PLAINTEXT_HOST:PLAINTEXT
       - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
       - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
-  
+
+##############################################
+# kafka-ui - Show kafka metrics, brokers, messages, topics, etc
+##############################################
+
   kafka-ui:
     image: provectuslabs/kafka-ui
     container_name: kafka-ui
@@ -38,6 +50,11 @@ services:
       KAFKA_CLUSTER_0_ZOOKEEPER: zookeeper:2181
       DYNAMIC_CONFIG_ENABLED: 'true'
   
+
+##############################################
+# elasticsearch - search engine
+##############################################
+
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.11.1
     container_name: elasticsearch
@@ -54,6 +71,11 @@ services:
       - ./elastic/data:/usr/share/elasticsearch/data
     networks:
       - elasticnet
+
+
+##############################################
+# kibana - Visualization
+##############################################
 
   kibana:
     image: docker.elastic.co/kibana/kibana:7.11.1
