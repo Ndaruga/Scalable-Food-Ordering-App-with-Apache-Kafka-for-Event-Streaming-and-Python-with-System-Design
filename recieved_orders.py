@@ -1,3 +1,8 @@
+'''
+This file will:
+    * Recieve orders from the the customer frontend interface 
+    * Publish them to the recieved_orders kafka topic
+'''
 import json
 import time
 import random
