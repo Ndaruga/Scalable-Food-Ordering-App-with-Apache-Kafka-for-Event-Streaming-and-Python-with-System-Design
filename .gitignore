@@ -1,2 +1,4 @@
 virtual
 elastic
+connect-plugins/*
+.DS_Store
