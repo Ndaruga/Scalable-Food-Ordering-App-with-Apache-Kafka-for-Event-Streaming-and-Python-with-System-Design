@@ -12,7 +12,7 @@ from datetime import datetime
 from kafka import KafkaProducer
 
 ORDER_KAFKA_TOPIC = "recieved_orders"
-ORDER_LIMIT = 15
+ORDER_LIMIT = 1500
 fake = Faker()
 
 producer = KafkaProducer(

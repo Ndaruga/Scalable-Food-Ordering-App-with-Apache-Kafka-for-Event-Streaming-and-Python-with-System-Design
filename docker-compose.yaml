@@ -66,7 +66,7 @@ services:
       - $PWD/connect-plugins:/connect-plugins
     environment:
       CONNECT_BOOTSTRAP_SERVERS: kafka:9092
-      CONNECT_REST_PORT: 8083
+      CONNECT_REST_PORT: 18083
       CONNECT_GROUP_ID: 'connect'
       CONNECT_CONFIG_STORAGE_TOPIC: connect-config
       CONNECT_OFFSET_STORAGE_TOPIC: connect-offsets
@@ -92,7 +92,36 @@ services:
       CONNECT_LOG4J_ROOT_LOGLEVEL: INFO
       CONNECT_LOG4J_LOGGERS: org.reflections=ERROR
       CLASSPATH: /usr/share/java/monitoring-interceptors/monitoring-interceptors-3.3.0.jar
-
+    command: 
+      - bash 
+      - -c 
+      - |
+        echo "Waiting for installation to complete"
+        confluent-hub install --no-prompt neo4j/kafka-connect-neo4j:1.0.0
+        #
+        echo -e "\tWaiting for installation to complete"
+        while [ ! -d /usr/share/confluent-hub-components/neo4j-kafka-connect-neo4j ]
+          do
+          sleep 1
+          echo -en "\tWaiting for installation to complete…"
+          date
+        done
+        #
+        echo "Launching Kafka Connect worker"
+        /etc/confluent/docker/run & 
+        #
+        echo "Waiting for Kafka Connect to start listening on $$CONNECT_REST_ADVERTISED_HOST_NAME ⏳"
+        while [ $$(curl -s -o /dev/null -w %{http_code} http://$$CONNECT_REST_ADVERTISED_HOST_NAME:$$CONNECT_REST_PORT/connectors) -ne 200 ] ; do 
+          echo -e $$(date) " Kafka Connect listener HTTP state: " $$(curl -s -o /dev/null -w %{http_code} http://$$CONNECT_REST_ADVERTISED_HOST_NAME:$$CONNECT_REST_PORT/connectors) " (waiting for 200)"
+          sleep 5 
+        done
+        nc -vz $$CONNECT_REST_ADVERTISED_HOST_NAME $$CONNECT_REST_PORT
+        echo -e "\n--\n+> Creating Kafka Connect Elasticsearch sink"
+        /scripts/create-es-sink.sh 
+        nc -vz $$CONNECT_REST_ADVERTISED_HOST_NAME $$CONNECT_REST_PORT
+        echo -e "\n--\n+> Creating Kafka Connect Neo4J sink"
+        /scripts/create-neo4j-sink.sh
+        sleep infinity
 
 ##############################################
 # elasticsearch - search engine
@@ -112,6 +141,20 @@ services:
       cluster.name: elasticsearch
     volumes:
       - ./elastic/data:/usr/share/elasticsearch/data
+    command: 
+      - bash 
+      - -c 
+      - |
+        /usr/local/bin/docker-entrypoint.sh & 
+        echo "Waiting for Elasticsearch to start ⏳"
+        while [ $$(curl -s -o /dev/null -w %{http_code} http://localhost:9200/) -eq 000 ] ; do 
+          echo -e $$(date) " Elasticsearch listener HTTP state: " $$(curl -s -o /dev/null -w %{http_code} http://localhost:9200/) " (waiting for != 000)"
+          sleep 5 
+        done
+        echo -e "\n--\n+> Creating Elasticsearch dynamic mapping"
+        /scripts/create-dynamic-mapping.sh
+        sleep infinity
+        
     networks:
       - elasticnet
 
