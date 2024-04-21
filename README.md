@@ -5,7 +5,13 @@ This data engineering pipeline processes orders received from the customer front
 It utilizes Apache Kafka for message streaming and communication between different components.
 
 ---
-## System Architecure
+## System Design and Architecture
+### Basic Architecure
+![food-app drawio](https://github.com/Ndaruga/Scalable-Food-Ordering-App-with-Apache-Kafka-for-Event-Streaming-and-Python-with-System-Design/assets/68260816/b94cbd6f-2d82-4008-8dde-be4595e0d674)
+
+
+### Data analysis Architecure
+
 
 ---
 ## Overview
