@@ -12,6 +12,8 @@ It utilizes Apache Kafka for message streaming and communication between differe
 
 ### Data analysis Architecure
 
+<img width="1400" alt="image" src="https://github.com/Ndaruga/Scalable-Food-Ordering-App-with-Apache-Kafka-for-Event-Streaming-and-Python-with-System-Design/assets/68260816/8694f064-e072-4452-856c-854545543654">
+
 
 ---
 ## Overview
