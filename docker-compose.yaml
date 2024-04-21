@@ -57,7 +57,7 @@ services:
     image: confluentinc/cp-kafka-connect:7.5.0
     container_name: kafka-connect-es
     ports:
-      - "8083:8083"
+      - "18083:18083"
     depends_on:
       - zookeeper
       - kafka
@@ -154,7 +154,7 @@ services:
         echo -e "\n--\n+> Creating Elasticsearch dynamic mapping"
         /scripts/create-dynamic-mapping.sh
         sleep infinity
-        
+
     networks:
       - elasticnet
 

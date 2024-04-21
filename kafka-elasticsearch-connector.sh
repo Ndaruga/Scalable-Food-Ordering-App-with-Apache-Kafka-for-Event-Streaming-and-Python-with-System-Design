@@ -7,7 +7,7 @@ curl -X POST http://localhost:8083/connectors -H 'Content-Type: application/json
     "topics": "confirmed_orders",
     "key.ignore": "true",
     "schema.ignore": "true",
-    "connection.url": "http://172.19.0.2:9300",
+    "connection.url": "http://localhost:9200",
     "type.name": "_doc",
     "name": "elasticsearch-sink",
     "value.converter": "org.apache.kafka.connect.json.JsonConverter",
