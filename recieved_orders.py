@@ -39,5 +39,6 @@ for i in range(1, ORDER_LIMIT):
     )
 
     print(f"Done sending {i}")
-    time.sleep(random.choice(range(1, 11)))
+    time.sleep(2)
+    # time.sleep(random.choice(range(1, 11)))
 

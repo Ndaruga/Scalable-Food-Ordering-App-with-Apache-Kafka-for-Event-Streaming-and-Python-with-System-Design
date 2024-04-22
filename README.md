@@ -50,18 +50,19 @@ docker-compose up -d
 ```
 
 ## Usage
+once all the docker containers are up and running, you can now proceed to start generating your orders
 
 ### 1. Generating Orders
 
-Run the `received_orders.py` script to generate mock orders and publish them to Kafka.
+Run the `received_orders.py` script to generate mock orders and publish them to `recieved_orders` Kafka topic.
 
 ```bash
-python received_orders.py
+python3 received_orders.py
 ```
 
 ### 2. Processing Orders
 
-Run the `transactions.py` script to process orders, calculate total costs, and publish confirmed orders to Kafka.
+Run the `transactions.py` script to process orders, calculate total costs, and publish confirmed orders to the `confirmed_orders` Kafka topic.
 
 ```bash
 python transactions.py
