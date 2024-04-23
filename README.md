@@ -96,7 +96,7 @@ python emails.py
 
 ## Credits
 
-- Original scripts developed by [Your Name].
+- Original scripts developed by Ndaruga.
 
 ## License
 
