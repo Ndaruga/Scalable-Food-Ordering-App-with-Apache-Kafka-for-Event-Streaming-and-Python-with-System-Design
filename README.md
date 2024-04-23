@@ -84,10 +84,16 @@ pip install -r requirements.txt
     curl -X GET http://localhost:8083/connectors
     ```
     This command should return the name of the connector
+   <img width="648" alt="Screenshot 2024-04-23 at 12 46 01 PM" src="https://github.com/Ndaruga/Scalable-Food-Ordering-App-with-Apache-Kafka-for-Event-Streaming-and-Python-with-System-Design/assets/68260816/dccf9091-237a-4a4f-b16b-a435d9ceeef2">
 
-6. Once all the Environments are set up, docker containers are up and running, you can now proceed to start generating your orders
 
-    To ensure you see how your orders are being generated and processed, open 3 diffrent terminal windows on the project directory and ensure you launch the python scrips as follows.
+7. Once all the Environments are set up, docker containers are up and running, you can now proceed to start generating your orders
+
+    To ensure you see how your orders are being generated and processed, open 3 diffrent terminal windows on the project directory
+    <img width="1105" alt="Screenshot 2024-04-23 at 12 56 27 PM" src="https://github.com/Ndaruga/Scalable-Food-Ordering-App-with-Apache-Kafka-for-Event-Streaming-and-Python-with-System-Design/assets/68260816/531f7106-0443-42a4-8cf6-bf99faa5d654">
+
+   
+   Ensure you launch the python scrips as follows.
    
      - On terminal 3, run the `emails.py` script to listen for confirmed orders and send confirmatory emails to customers.
         ```bash
@@ -104,7 +110,13 @@ pip install -r requirements.txt
         ```bash
         python3 received_orders.py
         ```
-    The services are running on the following ports:
+    If all the file run successfully and simultaneously, you should see your orders being generated each after 2 seconds and processed simultanouesly as they are being generated.
+
+
+    https://github.com/Ndaruga/Scalable-Food-Ordering-App-with-Apache-Kafka-for-Event-Streaming-and-Python-with-System-Design/assets/68260816/5c510c63-8145-42b0-a511-66b920f9939a
+
+
+   The services are running on the following ports:
     
     * Kafka 7.2.0: [http://localhost:29092](http://localhost:29092) to connect to Kafka running in Docker from your machine,
       [http://broker:9092](http://broker:9092) used between Docker services inside the container.
@@ -112,7 +124,7 @@ pip install -r requirements.txt
     * ElasticSearch: [http://localhost:9200](http://localhost:9200) to search/index documents in ElasticSearch (running in Docker) from your machine, [http://elastic:9200](http://elastic:9200) for communication between Docker services.
     * Kibana: [http://localhost:5601](http://localhost:5601) to have an easy way to access ElasticSearch via a GUI from your machine.
 
-7. Configuring Kibana to Visualize Generated data
+9. Configuring Kibana to Visualize Generated data
 
 
 
