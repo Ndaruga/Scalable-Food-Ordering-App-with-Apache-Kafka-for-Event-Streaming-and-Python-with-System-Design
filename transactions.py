@@ -6,16 +6,15 @@ This File will:
 
 '''
 
-
+import os
 import json
 from kafka import KafkaConsumer, KafkaProducer
+from dotenv import load_dotenv
 
-RECIEVED_ORDER_KAFKA_TOPIC = "recieved_orders"
-CONFIRMED_ORDERS_KAFKA_TOPIC = "confirmed_orders"
-
+load_dotenv(override=False)
 
 consumer = KafkaConsumer(
-    RECIEVED_ORDER_KAFKA_TOPIC,
+    os.environ.get("RECIEVED_ORDER_KAFKA_TOPIC"),
     bootstrap_servers="localhost:29092"
 )
 
@@ -42,8 +41,20 @@ while True:
         }
 
         producer.send(
-            CONFIRMED_ORDERS_KAFKA_TOPIC,
+            str(os.environ.get("CONFIRMED_ORDERS_KAFKA_TOPIC")),
             json.dumps(data, indent=4, sort_keys=True, default=str).encode("utf-8")
+        )
+
+        analysis_data = {
+            "purchase_date": consumed_message["date"],
+            "item": consumed_message["order_item"],
+            "quantity": consumed_message["order_quantity"],
+            "total_cost":consumed_message["order_quantity"] * consumed_message["cost"]
+        }
+        # Save in analysis_topic
+        producer.send(
+            os.environ.get("ANALYSIS_KAFKA_TOPIC"),
+            json.dumps(analysis_data, indent=4, sort_keys=True, default=str).encode("utf-8")
         )
 
         # print(f'\nSent order ID: {consumed_message["order_id"]}')

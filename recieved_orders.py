@@ -3,17 +3,18 @@ This file will:
     * Recieve orders from the the customer frontend interface 
     * Publish them to the recieved_orders kafka topic
 '''
+import os
 import json
 import time
 import random
 from faker import Faker
 from datetime import datetime
-
 from kafka import KafkaProducer
+from dotenv import load_dotenv
 
-ORDER_KAFKA_TOPIC = "recieved_orders"
-ORDER_LIMIT = 1500
+load_dotenv(override=False)
 fake = Faker()
+ORDER_LIMIT=1500
 
 producer = KafkaProducer(
     bootstrap_servers="localhost:29092"
@@ -34,7 +35,7 @@ for i in range(1, ORDER_LIMIT):
     }
 
     producer.send(
-        ORDER_KAFKA_TOPIC,
+        os.environ.get("ORDER_KAFKA_TOPIC"),
         json.dumps(data, indent=4, sort_keys=True, default=str).encode("utf-8")
     )
 
