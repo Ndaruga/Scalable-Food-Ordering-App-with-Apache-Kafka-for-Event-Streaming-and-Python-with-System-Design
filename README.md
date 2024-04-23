@@ -49,32 +49,26 @@ pip install -r requirements.txt
 docker-compose up -d
 ```
 
-## Usage
-once all the docker containers are up and running, you can now proceed to start generating your orders
+4. Once all the docker containers are up and running, you can now proceed to start generating your orders
 
-### 1. Generating Orders
+    To ensure you see how your orders are being generated and processed, open 3 diffrent terminal windows on the project directory and ensure you launch the python scrips as follows.
+   
+     - On terminal 3, run the `emails.py` script to listen for confirmed orders and send confirmatory emails to customers.
+        ```bash
+        python emails.py
+        ```
 
-Run the `received_orders.py` script to generate mock orders and publish them to `recieved_orders` Kafka topic.
+     - On terminal 2, Run the `transactions.py` script to listen to incoming orders, process the orders by calculating the total costs, and publish the orders to the `confirmed_orders` Kafka topic.
+        ```bash
+        python transactions.py
+        ```
 
-```bash
-python3 received_orders.py
-```
+     - On terminal 1, Run the `received_orders.py` script to generate mock orders and publish them to `recieved_orders` Kafka topic.
 
-### 2. Processing Orders
+        ```bash
+        python3 received_orders.py
+        ```
 
-Run the `transactions.py` script to process orders, calculate total costs, and publish confirmed orders to the `confirmed_orders` Kafka topic.
-
-```bash
-python transactions.py
-```
-
-### 3. Sending Emails
-
-Run the `emails.py` script to listen for confirmed orders and send confirmatory emails to customers.
-
-```bash
-python emails.py
-```
 
 ## Configuration
 
