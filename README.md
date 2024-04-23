@@ -73,20 +73,20 @@ pip install -r requirements.txt
 
 5. Set up and activate the ElasticSearch-Kafka Connector by running the cURL command in your terminal:
 
-    ```bash
-    ./kafka-elasticsearch-connector.sh
-    ```
+      ```bash
+      ./kafka-elasticsearch-connector.sh
+      ```
 
-    The cURL command in the `kafka-elasticsearch-connector.sh` file sends a POST request to Kafka Connect and creates the ElasticsearchSinkConnector named elasticsearch-sink. 
+    * The cURL command in the `kafka-elasticsearch-connector.sh` file sends a POST request to Kafka Connect and creates the ElasticsearchSinkConnector named elasticsearch-sink. 
     
-    The Connector subscribes to the Kafka topic `Analysis-topic` and automatically creates a new `_doc` in ElasticSearch as soon as a new message is published to the topic `analysis-topic`. The name of the ElasticSearch index is the same as the name of the Kafka topic, i.e. example-topic. key.ignore is set to true and means that Kafka message keys are not used as document IDs in ElasticSearch. 
-    Instead, the pattern `topic+partition+offset` is used to auto-generate the IDs.
+    * The Connector subscribes to the Kafka topic `Analysis-topic` and automatically creates a new `_doc` in ElasticSearch as soon as a new message is published to the topic `analysis-topic`. The name of the ElasticSearch index is the same as the name of the Kafka topic, i.e. Analysis-topic.key.ignore is set to true and means that Kafka message keys are not used as document IDs in ElasticSearch. Instead, the pattern `topic+partition+offset` is used to auto-generate the IDs.
     
-    Validate the creation of the Connector by running the following cURL command:
-    ```
-    curl -X GET http://localhost:8083/connectors
-    ```
+    * Validate the creation of the Connector by running the following cURL command:
+      ```
+      curl -X GET http://localhost:8083/connectors
+      ```
     This command should return the name of the connector
+   
    <img width="648" alt="Screenshot 2024-04-23 at 12 46 01 PM" src="https://github.com/Ndaruga/Scalable-Food-Ordering-App-with-Apache-Kafka-for-Event-Streaming-and-Python-with-System-Design/assets/68260816/dccf9091-237a-4a4f-b16b-a435d9ceeef2">
 
 
@@ -119,18 +119,56 @@ pip install -r requirements.txt
     https://github.com/Ndaruga/Scalable-Food-Ordering-App-with-Apache-Kafka-for-Event-Streaming-and-Python-with-System-Design/assets/68260816/5c510c63-8145-42b0-a511-66b920f9939a
 
 
-   The services are running on the following ports:
-    
-    * Kafka 7.2.0: [http://localhost:29092](http://localhost:29092) to connect to Kafka running in Docker from your machine,
-      [http://broker:9092](http://broker:9092) used between Docker services inside the container.
-    * Kafka Connect: [http://localhost:8083](http://localhost:8083) to setup and manage Connectors in Kafka Connect from your machine.
     * ElasticSearch: [http://localhost:9200](http://localhost:9200) to search/index documents in ElasticSearch (running in Docker) from your machine, [http://elastic:9200](http://elastic:9200) for communication between Docker services.
     * Kibana: [http://localhost:5601](http://localhost:5601) to have an easy way to access ElasticSearch via a GUI from your machine.
 
-9. Configuring Kibana to Visualize Generated data
+8. Configuring Kibana to Visualize Generated data
+    > Please Note that these steps may vary but I will try to generalize them. The most crucial thing is creating an Index pattern
+  -  Open elatic search on port [http://localhost:5601](http://localhost:5601).
+  -  Select **Kibana**
+  -  Select **Dashboard**, then select **New Dashboard** and then click on **Add data**
+  -  Next you need to Click on `Create Index pattern` to create a pattern.
+
+       * On Step 1 of 2: **Define an index pattern**, enter add the topic name defined in the elastic search connector set up which is `analysis_topic` and Click on **Next**
+
+         <img width="1225" alt="image" src="https://github.com/Ndaruga/Scalable-Food-Ordering-App-with-Apache-Kafka-for-Event-Streaming-and-Python-with-System-Design/assets/68260816/26e135d3-01c5-4146-81f1-b25407baa0f2">
+     
+      * On Step 2 of 2: You can optionally give your index pattern a custom name under ***Advanced Settings*** or leave it as it is. Finally, click **Create Index Pattern**
+
+  - Once the index pattern is created, Navigate to **Kibana** again and this time click **Create New Dashboard**
+    
+      <img width="587" alt="image" src="https://github.com/Ndaruga/Scalable-Food-Ordering-App-with-Apache-Kafka-for-Event-Streaming-and-Python-with-System-Design/assets/68260816/6e0f0d5e-16b1-4038-a752-8fe899ac8d2a">
+
+  - Click on **Create New**
+    
+      <img width="301" alt="image" src="https://github.com/Ndaruga/Scalable-Food-Ordering-App-with-Apache-Kafka-for-Event-Streaming-and-Python-with-System-Design/assets/68260816/5c65467f-057c-4ed3-a5da-6cfda8393831">
+
+  - In the `New Visualization` wizard, If you want to create a quick visual using drag and drop, select the `Lens` option. The **Lens** option, has limited customization unlike other options.
+    
+      <img width="416" alt="image" src="https://github.com/Ndaruga/Scalable-Food-Ordering-App-with-Apache-Kafka-for-Event-Streaming-and-Python-with-System-Design/assets/68260816/504d7462-6f6a-457e-9a06-f90ea6f2b5e6">
+
+  - Next you can Drag your prefered fields from the right and drop them on the visual wizard in the center. Use the options on the Left to customize your aggregation.
+    
+      <img width="1495" alt="image" src="https://github.com/Ndaruga/Scalable-Food-Ordering-App-with-Apache-Kafka-for-Event-Streaming-and-Python-with-System-Design/assets/68260816/568dafce-5eb5-4728-8541-9ef292546de8">
+
+      * You can select one of the suggested visuals on the panel below the main visual.
+      * Click on **Save** to save your visual on the dashboard.
+      * Add any other visuals that analysis data to the dashboard
+    
+  - Finally, Since the `recieved_orders.py` file generates orders after every 2 seconds, customize the time on the dashboard to `2 seconds` also set the refresh time to `2 seconds` and click **Start** then click on **Apply**
+    
+      <img width="525" alt="image" src="https://github.com/Ndaruga/Scalable-Food-Ordering-App-with-Apache-Kafka-for-Event-Streaming-and-Python-with-System-Design/assets/68260816/f235057e-d5cf-45ae-b492-60c0f9fe26b1">
 
 
+### Congratulations!! You now have a Realtime Analytics Pipeline
+---
+## See Kafka Metrics, brokers and topics
+* Kafka UI runs on [http://localhost:8080/](http://localhost:8080/)
+  
+  <img width="1510" alt="image" src="https://github.com/Ndaruga/Scalable-Food-Ordering-App-with-Apache-Kafka-for-Event-Streaming-and-Python-with-System-Design/assets/68260816/59a0edda-8b5b-4877-bfe2-26a4574840aa">
 
+* Click on **topics** to see a list of all available Kafka topics as well as total messages published to these topics.
+* Click on **consumers** to see the elasticsearch connector name we set up in step 5 of the setup.
 
 
 ## Additional Notes
@@ -138,15 +176,6 @@ pip install -r requirements.txt
 - Mock orders are generated with random data using the `Faker` library.
 - Confirmatory emails are sent to customers using their provided email addresses.
 - Adjust the `ORDER_LIMIT` variable in `received_orders.py` to control the number of mock orders generated.
-
-## Dependencies
-
-- `kafka-python`: Python client for Apache Kafka.
-- `Faker`: Python library for generating fake data.
-
-## Credits
-
-- Original scripts developed by Ndaruga.
 
 ## License
 
