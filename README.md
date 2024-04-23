@@ -4,6 +4,9 @@ This data engineering pipeline processes orders received from the customer front
 
 Below is a short wideo of the dashboard analytics in realtime
 
+https://github.com/Ndaruga/Scalable-Food-Ordering-App-with-Apache-Kafka-for-Event-Streaming-and-Python-with-System-Design/assets/68260816/0a243341-0ab2-44d8-b7b5-a17355865ca4
+
+
 
 The projects core component is [Apache Kafka](https://kafka.apache.org/) to stream evants (customer orders)
 
