@@ -83,6 +83,14 @@ python emails.py
   - `received_orders`: Topic for receiving orders from the frontend.
   - `confirmed_orders`: Topic for confirmed orders after processing.
 
+The services are running on the following ports:
+
+* Kafka 7.2.0: [http://localhost:29092](http://localhost:29092) to connect to Kafka running in Docker from your machine,
+  [http://broker:9092](http://broker:9092) used between Docker services inside the container.
+* Kafka Connect: [http://localhost:8083](http://localhost:8083) to setup and manage Connectors in Kafka Connect from your machine.
+* ElasticSearch: [http://localhost:9200](http://localhost:9200) to search/index documents in ElasticSearch (running in Docker) from your machine, [http://elastic:9200](http://elastic:9200) for communication between Docker services.
+* Kibana: [http://localhost:5601](http://localhost:5601) to have an easy way to access ElasticSearch via a GUI from your machine.
+
 ## Additional Notes
 
 - Mock orders are generated with random data using the `Faker` library.
