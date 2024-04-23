@@ -90,9 +90,9 @@ pip install -r requirements.txt
 7. Once all the Environments are set up, docker containers are up and running, you can now proceed to start generating your orders
 
     To ensure you see how your orders are being generated and processed, open 3 diffrent terminal windows on the project directory
-    <img width="1105" alt="Screenshot 2024-04-23 at 12 56 27 PM" src="https://github.com/Ndaruga/Scalable-Food-Ordering-App-with-Apache-Kafka-for-Event-Streaming-and-Python-with-System-Design/assets/68260816/531f7106-0443-42a4-8cf6-bf99faa5d654">
+     
+    ![WhatsApp Image 2024-04-23 at 13 16 33](https://github.com/Ndaruga/Scalable-Food-Ordering-App-with-Apache-Kafka-for-Event-Streaming-and-Python-with-System-Design/assets/68260816/6302863c-82ff-4dc4-b050-c0e936c5fb49)
 
-   
    Ensure you launch the python scrips as follows.
    
      - On terminal 3, run the `emails.py` script to listen for confirmed orders and send confirmatory emails to customers.
