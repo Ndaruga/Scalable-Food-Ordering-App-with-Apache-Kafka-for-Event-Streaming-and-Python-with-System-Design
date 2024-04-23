@@ -8,8 +8,6 @@ https://github.com/Ndaruga/Scalable-Food-Ordering-App-with-Apache-Kafka-for-Even
 
 
 
-The projects core component is [Apache Kafka](https://kafka.apache.org/) to stream evants (customer orders)
-
 ---
 ## System Design and Architecture
 ### Basic Architecure
@@ -118,9 +116,6 @@ pip install -r requirements.txt
 
     https://github.com/Ndaruga/Scalable-Food-Ordering-App-with-Apache-Kafka-for-Event-Streaming-and-Python-with-System-Design/assets/68260816/5c510c63-8145-42b0-a511-66b920f9939a
 
-
-    * ElasticSearch: [http://localhost:9200](http://localhost:9200) to search/index documents in ElasticSearch (running in Docker) from your machine, [http://elastic:9200](http://elastic:9200) for communication between Docker services.
-    * Kibana: [http://localhost:5601](http://localhost:5601) to have an easy way to access ElasticSearch via a GUI from your machine.
 
 8. Configuring Kibana to Visualize Generated data
     > Please Note that these steps may vary but I will try to generalize them. The most crucial thing is creating an Index pattern
