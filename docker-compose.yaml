@@ -90,28 +90,28 @@ services:
       SERVER_NAME: kibana.example.org
       ELASTICSEARCH_HOSTS: '["http://elastic:9200"]'
 
-  ksqldb-server:
-    image: confluentinc/ksqldb-server:0.27.2
-    hostname: ksqldb-server
-    container_name: ksqldb-server
-    depends_on:
-      - broker
-    ports:
-      - '8088:8088'
-    environment:
-      KSQL_LISTENERS: http://0.0.0.0:8088
-      KSQL_BOOTSTRAP_SERVERS: broker:9092
-      KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: 'true'
-      KSQL_KSQL_LOGGING_PROCESSING_TOPIC_AUTO_CREATE: 'true'
+  # ksqldb-server:
+  #   image: confluentinc/ksqldb-server:0.27.2
+  #   hostname: ksqldb-server
+  #   container_name: ksqldb-server
+  #   depends_on:
+  #     - broker
+  #   ports:
+  #     - '8088:8088'
+  #   environment:
+  #     KSQL_LISTENERS: http://0.0.0.0:8088
+  #     KSQL_BOOTSTRAP_SERVERS: broker:9092
+  #     KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: 'true'
+  #     KSQL_KSQL_LOGGING_PROCESSING_TOPIC_AUTO_CREATE: 'true'
 
-  ksqldb-cli:
-    image: confluentinc/ksqldb-cli:0.27.2
-    container_name: ksqldb-cli
-    depends_on:
-      - broker
-      - ksqldb-server
-    entrypoint: /bin/sh
-    tty: true
+  # ksqldb-cli:
+  #   image: confluentinc/ksqldb-cli:0.27.2
+  #   container_name: ksqldb-cli
+  #   depends_on:
+  #     - broker
+  #     - ksqldb-server
+  #   entrypoint: /bin/sh
+  #   tty: true
 
   zookeeper:
     image: confluentinc/cp-zookeeper:7.2.0
@@ -122,3 +122,17 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+  
+  kafka-ui:
+    image: provectuslabs/kafka-ui
+    container_name: kafka-ui
+    ports:
+      - "8080:8080"
+    depends_on:
+      - zookeeper
+      - broker
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: broker:9092
+      KAFKA_CLUSTER_0_ZOOKEEPER: zookeeper:2181
+      DYNAMIC_CONFIG_ENABLED: 'true'
